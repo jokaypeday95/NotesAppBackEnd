@@ -6,12 +6,14 @@ const addNoteHandler = (request, h) => {
 
   const id = nanoid(16);
   const createdAt = new Date().toISOString();
-  const updateAt = createdAt;
+  const updatedAt = createdAt;
 
   const newNote = {
-    title, tags, body, id, createdAt, updateAt,
+    title, tags, body, id, createdAt, updatedAt,
   };
+
   notes.push(newNote);
+
   const isSuccess = notes.filter((note) => note.id === id).length > 0;
 
   if (isSuccess) {
@@ -22,7 +24,7 @@ const addNoteHandler = (request, h) => {
         noteId: id,
       },
     });
-    response.code(200);
+    response.code(201);
     return response;
   }
 
@@ -66,7 +68,7 @@ const getNoteByIdHandler = (request, h) => {
 const editNoteByIdHandler = (request, h) => {
   const { id } = request.params;
   const { title, tags, body } = request.payload;
-  const updateAt = new Date().toISOString();
+  const updatedAt = new Date().toISOString();
   const index = notes.findIndex((note) => note.id === id);
 
   if (index !== -1) {
@@ -75,12 +77,12 @@ const editNoteByIdHandler = (request, h) => {
       title,
       tags,
       body,
-      updateAt,
+      updatedAt,
     };
 
     const response = h.response({
-      status: 'succsess',
-      message: 'Catatan berhasil diperbaharui',
+      status: 'success',
+      message: 'Catatan berhasil diperbarui',
     });
     response.code(200);
     return response;
